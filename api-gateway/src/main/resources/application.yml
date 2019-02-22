@@ -4,13 +4,17 @@ spring:
   application:
     name: api-gateway
 
-#ָ��ע������
+#指定注册中心
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+#设置路由规则
 zuul:
   routes:
     order-service: /apigateway/order/**
     product-service: /apigateway/product/**
   ignored-patterns: /*-service/**
+  #置空（放行所有请求头），也可设置过滤掉的请求头
+  sensitive-headers:

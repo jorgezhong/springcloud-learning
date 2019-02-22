@@ -2,18 +2,18 @@
 server:
   port: 8781
 
-#Ö¸¶¨×¢²áÖĞĞÄµØÖ·
+#æŒ‡å®šæ³¨å†Œä¸­å¿ƒåœ°å€
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 
-# ·şÎñµÄÃû³Æ
+# æœåŠ¡çš„åç§°
 spring:
   application:
     name: order-service
 
-# ·şÎñµÄÃû³Æ,ÅäÖÃredis
+  # æœåŠ¡çš„åç§°,é…ç½®redis
   redis:
     database: 1
     host: 192.168.0.247
@@ -22,24 +22,24 @@ spring:
     timeout: 2000ms
 
 
-#×Ô¶¨Òå¸ºÔØ¾ùºâ²ßÂÔ
-#ÕâÀïĞ´±»µ÷ÓÃ·şÎñÃû
+#è‡ªå®šä¹‰è´Ÿè½½å‡è¡¡ç­–ç•¥
+#è¿™é‡Œå†™è¢«è°ƒç”¨æœåŠ¡å
 product-service:
   ribbon:
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
 
-#feign¿Í»§¶ËÇëÇó³¬Ê±Ê±¼äÅäÖÃ
+#feignå®¢æˆ·ç«¯è¯·æ±‚è¶…æ—¶æ—¶é—´é…ç½®
 feign:
   client:
     config:
       default:
         connectTimeout: 2000
         readTimeout: 2000
-  # ¿ªÆôfeignÖ§³Öhystrix
+  # å¼€å¯feignæ”¯æŒhystrix
   hystrix:
     enabled: true
 
-#hystrix²ßÂÔÅäÖÃ£º³¬Ê±Ê±¼ä
+#hystrixç­–ç•¥é…ç½®ï¼šè¶…æ—¶æ—¶é—´
 hystrix:
   command:
     default:
@@ -48,7 +48,7 @@ hystrix:
           thread:
             timeoutInMilliseconds: 4000
 
-#¿ªÆôËùÓĞ¼à¿Ø¶Ëµã£¬±©Â¶È«²¿ĞÅÏ¢
+#å¼€å¯æ‰€æœ‰ç›‘æ§ç«¯ç‚¹ï¼Œæš´éœ²å…¨éƒ¨ä¿¡æ¯
 management:
   endpoints:
     web:

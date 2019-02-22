@@ -4,6 +4,8 @@ import com.jorge.orderservice.domain.ProductOrder;
 import com.jorge.orderservice.service.ProductOrderService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,15 +23,27 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/api/v1/order")
 public class OrderController {
 
+
     @Autowired
     private ProductOrderService productOrderService;
 
     @Autowired
     private StringRedisTemplate redisTemplate;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
+
     @RequestMapping("/save")
     @HystrixCommand(fallbackMethod = "saveOrderFail")
     public Object save(@RequestParam("user_id") int userId, @RequestParam("product_id") int productId, HttpServletRequest request) {
+
+        LOGGER.info("test info");
+        LOGGER.debug("test info");
+
+        String token = request.getHeader("token");
+        String cookie = request.getHeader("cookie");
+        System.out.println("token = " + token);
+        System.out.println("cookie = " + cookie);
+
         ProductOrder productOrder = productOrderService.save(userId, productId);
 
         Map<String, Object> result = new HashMap<>(16);
@@ -56,7 +70,7 @@ public class OrderController {
 
         CompletableFuture.runAsync(() -> {
             if (StringUtils.isBlank(sendValue)) {
-                System.out.println("紧急短信，用户下单失败，请立刻查找原因，ip："+ip);
+                System.out.println("紧急短信，用户下单失败，请立刻查找原因，ip：" + ip);
                 //todo 发送一个http请求，调用短信服务
                 redisTemplate.opsForValue().set(saveOrderKey, "save-order-fail", 20, TimeUnit.SECONDS);
 
