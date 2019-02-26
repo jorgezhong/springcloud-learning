@@ -7,18 +7,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/product")
+@RefreshScope
 public class ProductController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 
     @Value("${server.port}")
     private String port;
+
+    @Value("${branch}")
+    private String branch;
 
     @Autowired
     private ProductService productService;
@@ -40,7 +45,7 @@ public class ProductController {
 
         BeanUtils.copyProperties(product,result);
 
-        result.setName(result.getName() + " data from port=" + port);
+        result.setName(result.getName() + " data from port=" + port + ", branch=" + branch);
 
         return result;
     }
