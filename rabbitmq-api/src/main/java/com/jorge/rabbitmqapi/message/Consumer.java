@@ -1,12 +1,12 @@
-package com.jorge.rabbitmqapi.quickstart;
+package com.jorge.rabbitmqapi.message;
 
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 /**
- *
  * 消费者
  * Created by jorgezhong on 2019/3/1 17:19.
  */
@@ -42,7 +42,12 @@ public class Consumer {
             QueueingConsumer.Delivery delivery = queueingConsumer.nextDelivery();
             String msg = new String(delivery.getBody());
             System.out.println("消费端：" + msg);
-            //Envelope envelope = delivery.getEnvelope();
+
+            //使用Delivery获取消息Properties
+            AMQP.BasicProperties properties = delivery.getProperties();
+            Map<String, Object> headers = properties.getHeaders();
+
+            headers.forEach((s, o) -> System.out.println("key:" + s + ", value:" + o.toString()));
 
         }
 
