@@ -1,4 +1,4 @@
-package com.jorge.rabbitmqapi.exchange.fanout;
+package com.jorge.rabbitmq.exchange.topic;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeoutException;
  * 消费者
  * Created by jorgezhong on 2019/3/1 17:19.
  */
-public class FanoutExchangeConsumer {
+public class TopicExchangeConsumer {
     public static void main(String[] args) throws IOException, TimeoutException, InterruptedException {
         //1.创建一个ConnectionFactory，并进行配置
         ConnectionFactory connectionFactory = new ConnectionFactory();
@@ -33,12 +33,13 @@ public class FanoutExchangeConsumer {
 
 
         //4. 声明
-        String exchangeName = "test_fanout_exchange";
-        String exchangeType = "fanout";
+        String exchangeName = "test_topic_exchange";
+        String exchangeType = "topic";
 
-        String queueName = "test_fanout_queue";
-        //不设置路由键
-        String routingKey = "";
+        String queueName = "test_topic_queue";
+//        String routingKey = "test.direct";
+        //设置路由规则
+        String routingKey = "user.*";
 
         //声明了一个交换机
         channel.exchangeDeclare(exchangeName, exchangeType,true,true,false,null);

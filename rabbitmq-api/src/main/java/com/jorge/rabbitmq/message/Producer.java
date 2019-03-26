@@ -1,4 +1,4 @@
-package com.jorge.rabbitmqapi.message;
+package com.jorge.rabbitmq.message;
 
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;

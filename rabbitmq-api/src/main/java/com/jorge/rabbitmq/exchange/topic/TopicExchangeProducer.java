@@ -1,4 +1,4 @@
-package com.jorge.rabbitmqapi.exchange.direct;
+package com.jorge.rabbitmq.exchange.topic;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeoutException;
  * 生产者
  * Created by jorgezhong on 2019/3/1 17:19.
  */
-public class DirectExchangeProducer {
+public class TopicExchangeProducer {
 
     public static void main(String[] args) throws IOException, TimeoutException {
 
@@ -28,17 +28,22 @@ public class DirectExchangeProducer {
         Channel channel = connection.createChannel();
 
         //4. 声明
-        String exchangeName = "test_direct_exchange";
-        //routingKey必须一致
-        String routingKey = "test.direct";
+        String exchangeName = "test_topic_exchange";
 
-        String msg = "Hello World RabbitMQ , Direct Exchange Message...";
+        String routingKey1 = "user.save";
+        String routingKey2 = "user.update";
+        String routingKey3 = "user.update.abc";
+
+        String msg = "Hello World RabbitMQ , Topic Exchange Message...";
 
         //5. 发送
-        channel.basicPublish(exchangeName, routingKey, null, msg.getBytes());
+        channel.basicPublish(exchangeName, routingKey1, null, msg.getBytes());
+        channel.basicPublish(exchangeName, routingKey2, null, msg.getBytes());
+        channel.basicPublish(exchangeName, routingKey3, null, msg.getBytes());
 
         channel.close();
         connection.close();
+
     }
 
 }

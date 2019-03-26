@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.TimeUnit;
+
 @RestController
 @RequestMapping("/api/v1/product")
 @RefreshScope
@@ -38,6 +40,12 @@ public class ProductController {
     public Object findById(@RequestParam("id") int id) {
 
         LOGGER.info("test info");
+
+        try {
+            TimeUnit.SECONDS.sleep(10);
+        } catch (InterruptedException e) {
+            //ignore
+        }
 
         Product product = productService.findById(id);
 

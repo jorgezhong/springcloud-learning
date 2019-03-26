@@ -1,4 +1,4 @@
-package com.jorge.rabbitmqapi.exchange.fanout;
+package com.jorge.rabbitmq.exchange.direct;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeoutException;
  * 生产者
  * Created by jorgezhong on 2019/3/1 17:19.
  */
-public class FanoutExchangeProducer {
+public class DirectExchangeProducer {
 
     public static void main(String[] args) throws IOException, TimeoutException {
 
@@ -28,21 +28,17 @@ public class FanoutExchangeProducer {
         Channel channel = connection.createChannel();
 
         //4. 声明
-        String exchangeName = "test_fanout_exchange";
-        //不设置路由键
-        String routingKey = "";
+        String exchangeName = "test_direct_exchange";
+        //routingKey必须一致
+        String routingKey = "test.direct";
 
-        for (int i = 0; i < 10; i++) {
+        String msg = "Hello World RabbitMQ , Direct Exchange Message...";
 
-            String msg = "Hello World RabbitMQ , Topic Exchange Message...";
-
-            //5. 发送
-            channel.basicPublish(exchangeName, routingKey, null, msg.getBytes());
-        }
+        //5. 发送
+        channel.basicPublish(exchangeName, routingKey, null, msg.getBytes());
 
         channel.close();
         connection.close();
-
     }
 
 }

@@ -1,4 +1,4 @@
-package com.jorge.rabbitmqapi.exchange.topic;
+package com.jorge.rabbitmq.quickstart;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -11,39 +11,32 @@ import java.util.concurrent.TimeoutException;
  * 生产者
  * Created by jorgezhong on 2019/3/1 17:19.
  */
-public class TopicExchangeProducer {
+public class Producer {
 
     public static void main(String[] args) throws IOException, TimeoutException {
-
-        //1. 创建ConnectionFactory
+        //1.创建一个ConnectionFactory，并进行配置
         ConnectionFactory connectionFactory = new ConnectionFactory();
         connectionFactory.setHost("192.168.4.189");
         connectionFactory.setPort(5672);
         connectionFactory.setVirtualHost("/");
 
-        //2. 创还能Connection
+        //2. 通过ConnectionFactory创建连接
         Connection connection = connectionFactory.newConnection();
 
-        //3. 创建Channel
+        //3. 通过Connection创建一个Channel
         Channel channel = connection.createChannel();
 
-        //4. 声明
-        String exchangeName = "test_topic_exchange";
+        //4. 通过Channel发送数据
+        for (int i = 0; i < 5; i++) {
+            String msg = "Hello RabbitMQ";
+            //exchange设置配空字符串，RabbitMQ使用默认exchange:(AMQP default),
+            //其规则是用routingKey匹配同名的queue，匹配到了则往对应的队列发送数据，否则发送失败
+            channel.basicPublish("", "test001", null, msg.getBytes());
+        }
 
-        String routingKey1 = "user.save";
-        String routingKey2 = "user.update";
-        String routingKey3 = "user.update.abc";
-
-        String msg = "Hello World RabbitMQ , Topic Exchange Message...";
-
-        //5. 发送
-        channel.basicPublish(exchangeName, routingKey1, null, msg.getBytes());
-        channel.basicPublish(exchangeName, routingKey2, null, msg.getBytes());
-        channel.basicPublish(exchangeName, routingKey3, null, msg.getBytes());
-
+        //5. 记得关闭连接
         channel.close();
         connection.close();
-
     }
 
 }

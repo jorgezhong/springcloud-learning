@@ -1,4 +1,4 @@
-package com.jorge.rabbitmqapi.exchange.direct;
+package com.jorge.rabbitmq.exchange.fanout;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeoutException;
  * 消费者
  * Created by jorgezhong on 2019/3/1 17:19.
  */
-public class DirectExchangeConsumer {
+public class FanoutExchangeConsumer {
     public static void main(String[] args) throws IOException, TimeoutException, InterruptedException {
         //1.创建一个ConnectionFactory，并进行配置
         ConnectionFactory connectionFactory = new ConnectionFactory();
@@ -33,11 +33,12 @@ public class DirectExchangeConsumer {
 
 
         //4. 声明
-        String exchangeName = "test_direct_exchange";
-        String exchangeType = "direct";
+        String exchangeName = "test_fanout_exchange";
+        String exchangeType = "fanout";
 
-        String queueName = "test_direct_queue";
-        String routingKey = "test.direct";
+        String queueName = "test_fanout_queue";
+        //不设置路由键
+        String routingKey = "";
 
         //声明了一个交换机
         channel.exchangeDeclare(exchangeName, exchangeType,true,true,false,null);
@@ -51,7 +52,7 @@ public class DirectExchangeConsumer {
         //5. 创建消费者,监听队列
         QueueingConsumer queueingConsumer = new QueueingConsumer(channel);
 
-        //6. 设置Channel
+        //6. 设置Channel(队列名称，是否自动ack，consumer)
         channel.basicConsume(queueName, true, queueingConsumer);
 
         while (true) {
