@@ -30,7 +30,7 @@ public class DirectExchangeProducer {
         //4. 声明
         String exchangeName = "test_direct_exchange";
         //routingKey必须一致
-        String routingKey = "test.direct";
+        String routingKey = "count.direct";
 
         String msg = "Hello World RabbitMQ , Direct Exchange Message...";
 

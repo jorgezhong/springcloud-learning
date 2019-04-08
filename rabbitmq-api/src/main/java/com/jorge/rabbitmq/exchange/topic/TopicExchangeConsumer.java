@@ -37,7 +37,7 @@ public class TopicExchangeConsumer {
         String exchangeType = "topic";
 
         String queueName = "test_topic_queue";
-//        String routingKey = "test.direct";
+//        String routingKey = "count.direct";
         //设置路由规则
         String routingKey = "user.*";
 

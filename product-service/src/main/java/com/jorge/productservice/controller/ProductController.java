@@ -39,7 +39,7 @@ public class ProductController {
     @RequestMapping("/find")
     public Object findById(@RequestParam("id") int id) {
 
-        LOGGER.info("test info");
+        LOGGER.info("count info");
 
         try {
             TimeUnit.SECONDS.sleep(10);

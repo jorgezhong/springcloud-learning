@@ -37,7 +37,7 @@ public class DirectExchangeConsumer {
         String exchangeType = "direct";
 
         String queueName = "test_direct_queue";
-        String routingKey = "test.direct";
+        String routingKey = "count.direct";
 
         //声明了一个交换机
         channel.exchangeDeclare(exchangeName, exchangeType,true,true,false,null);
